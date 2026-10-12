@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>demo-compare</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(160deg, #1a1a1a 0%, #3d1f14 45%, #5c2a16 100%);
+    color: #f5f0eb;
+    min-height: 100vh;
+    padding: 48px 56px;
+  }
+  .label { color: #ffc107; font-size: 13px; letter-spacing: 0.08em; margin-bottom: 10px; }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .sub { color: #cbb8a8; font-size: 15px; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 14px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  th { color: #ffc107; font-weight: 600; font-size: 13px; }
+  tr.win td { background: rgba(255,193,7,0.12); }
+  .pay { font-weight: 700; color: #ffc107; }
+  .ok { color: #8bc34a; }
+</style>
+</head>
+<body>
+  <div class="label">STEP 2 · calculate-price × N</div>
+  <h1>预算 ¥40 真算价比价</h1>
+  <p class="sub">价格一律来自 calculate-price（分→元），禁止口算</p>
+  <table>
+    <thead><tr><th>候选方案</th><th>用券</th><th>原价</th><th>应付</th><th>预算内</th></tr></thead>
+    <tbody>
+      <tr class="win"><td>大堡口福三件套 ×1</td><td>无</td><td>¥22.90</td><td class="pay">¥22.90</td><td class="ok">是 · 最低</td></tr>
+      <tr><td>麦乐鸡经典中套餐 ×1</td><td>无</td><td>¥25.00</td><td>¥25.00</td><td class="ok">是</td></tr>
+      <tr><td>龙焰鸡腿堡三件套 ×1</td><td>无</td><td>¥26.90</td><td>¥26.90</td><td class="ok">是</td></tr>
+      <tr><td>精选超值随心配 + 中薯条买一送一</td><td>薯条券</td><td>¥41.90</td><td>¥27.40</td><td class="ok">是</td></tr>
+      <tr><td>大堡口福三件套 + 冰美式中杯</td><td>9.9 冰美式券</td><td>¥41.90</td><td>¥32.80</td><td class="ok">是</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>

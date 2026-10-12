@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>demo-plan</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(160deg, #1a1a1a 0%, #3d1f14 45%, #5c2a16 100%);
+    color: #f5f0eb;
+    min-height: 100vh;
+    padding: 48px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .panel {
+    width: 720px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,193,7,0.35);
+    border-radius: 18px;
+    padding: 36px 40px;
+  }
+  .label { color: #ffc107; font-size: 13px; letter-spacing: 0.08em; margin-bottom: 12px; }
+  h1 { font-size: 26px; margin-bottom: 22px; }
+  .line { margin: 10px 0; font-size: 16px; line-height: 1.55; color: #efe6dc; }
+  .k { color: #cbb8a8; display: inline-block; min-width: 5.5em; }
+  .pay { font-size: 34px; font-weight: 800; color: #ffc107; margin: 18px 0 8px; }
+  .status {
+    display: inline-block; margin-top: 10px; background: #8bc34a; color: #1a1a1a;
+    font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 999px;
+  }
+  .hint { margin-top: 22px; color: #cbb8a8; font-size: 13px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <div class="label">STEP 3 · 确认前方案（未下单）</div>
+    <h1>【到店省钱方案】</h1>
+    <div class="line"><span class="k">门店</span>麦当劳上海静安寺餐厅（1450002）</div>
+    <div class="line"><span class="k">人数｜预算</span>1 人｜¥40</div>
+    <div class="line"><span class="k">菜品</span>大堡口福三件套 ×1</div>
+    <div class="line"><span class="k">用券</span>无（比价后单品套餐更省）</div>
+    <div class="line"><span class="k">原价</span>¥22.90｜优惠 ¥0.00</div>
+    <div class="pay">应付 ¥22.90</div>
+    <div class="line"><span class="k">取餐方式</span>堂食 eat-in · 外带 locker-in（店内取餐柜）</div>
+    <span class="status">可下单 · 低于预算 ¥17.10</span>
+    <p class="hint">回复「确认下单」并选定取餐方式后，才会调用 create-order 并返回支付链接。<br/>本演示止于算价确认，未创建真实订单。</p>
+  </div>
+</body>
+</html>

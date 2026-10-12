@@ -63,16 +63,32 @@ npm run smoke
 **示例 1 — 只要方案**
 
 ```text
-预算 35 元，1 人，到店。位置：北京朝阳大望路。先不要下单，给我最省方案。
+预算 40 元，1 人，到店。位置：上海 静安寺。先查券再比价，不要下单，只给最省方案。
 ```
 
 **示例 2 — 确认下单**
 
 ```text
-就按这个方案，确认下单。
+取餐方式选店内取餐柜，确认下单。
 ```
 
-Agent 应先展示门店、菜品、用券、应付与取餐方式，再在确认后调用 `create-order`。
+Agent 应先展示门店、菜品、用券、应付与取餐方式，再在确认后调用 `create-order`。完整对话与比价表见 [`examples/prompts.md`](examples/prompts.md)。
+
+## 演示截图（真实 MCP · 2026-10-12）
+
+场景：预算 **¥40** / 1 人 / 上海静安寺 / 到店自取。流水线跑通至 `calculate-price`，**未创建订单**。最优方案：**大堡口福三件套 · 应付 ¥22.90**（`storeCode=1450002`，不传 `beCode`）。
+
+### 1. 选店
+
+![选店](docs/demo/01-stores.png)
+
+### 2. 真算价比价
+
+![比价](docs/demo/02-compare.png)
+
+### 3. 确认前方案
+
+![方案](docs/demo/03-plan.png)
 
 ## 项目结构
 
@@ -83,6 +99,8 @@ Agent 应先展示门店、菜品、用券、应付与取餐方式，再在确�
 | `CONTEST_DECLARATION.md` | 参赛声明（官方原文，勿改） |
 | `mcp-config.example.json` | 脱敏配置示例 |
 | `references/flow.md` | 流程图与参数约定 |
+| `examples/prompts.md` | 提示词 + 完整演示对话 |
+| `docs/demo/` | 演示截图（真实 MCP 数据） |
 | `scripts/smoke.mjs` | MCP 连通性冒烟（不下单） |
 
 ## 默认场景与安全

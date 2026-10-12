@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>demo-stores</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(160deg, #1a1a1a 0%, #3d1f14 45%, #5c2a16 100%);
+    color: #f5f0eb;
+    min-height: 100vh;
+    padding: 48px 56px;
+  }
+  .label { color: #ffc107; font-size: 13px; letter-spacing: 0.08em; margin-bottom: 10px; }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .sub { color: #cbb8a8; font-size: 15px; margin-bottom: 28px; }
+  .card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,193,7,0.25);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+  }
+  .card.selected {
+    background: rgba(255,193,7,0.12);
+    border-color: #ffc107;
+  }
+  .row { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+  .name { font-size: 17px; font-weight: 600; }
+  .meta { color: #cbb8a8; font-size: 13px; margin-top: 6px; line-height: 1.5; }
+  .tag {
+    font-size: 12px; color: #1a1a1a; background: #ffc107;
+    border-radius: 6px; padding: 4px 8px; white-space: nowrap;
+  }
+  .foot { margin-top: 22px; color: #cbb8a8; font-size: 13px; }
+</style>
+</head>
+<body>
+  <div class="label">STEP 1 · query-nearby-stores</div>
+  <h1>上海静安寺附近门店</h1>
+  <p class="sub">到店自取 beType=1 · 已选定最近一家（不传 beCode）</p>
+
+  <div class="card selected">
+    <div class="row"><div class="name">麦当劳上海静安寺餐厅</div><span class="tag">已选 · 134m</span></div>
+    <div class="meta">storeCode: 1450002<br/>万航渡路18号 · 营业中 00:00–23:59</div>
+  </div>
+  <div class="card">
+    <div class="row"><div class="name">麦当劳上海越洋广场餐厅</div><span class="tag" style="background:#cbb8a8">194m</span></div>
+    <div class="meta">storeCode: 1450133 · 南京西路1601号芮欧百货地下二层B208</div>
+  </div>
+  <div class="card">
+    <div class="row"><div class="name">麦当劳上海南京西路Eco1788餐厅</div><span class="tag" style="background:#cbb8a8">221m</span></div>
+    <div class="meta">storeCode: 1450224 · 南京西路1818号1788国际大厦B1</div>
+  </div>
+  <p class="foot">演示时间：2026-10-12 20:36 · 真实 MCP 返回</p>
+</body>
+</html>

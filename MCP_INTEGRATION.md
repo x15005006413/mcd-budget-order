@@ -40,18 +40,19 @@
 1. 收集：预算（元）、人数、城市+位置关键词、忌口（可选）
 2. `now-time-info`
 3. （确认后）领券 → 查我的券
-4. `query-nearby-stores` → 用户选定 `storeCode` / `beCode`
-5. `query-store-coupons`（`orderType=1`, `beType=1`）
-6. `query-meals`（及按需 `query-meal-detail`）生成候选组合
+4. `query-nearby-stores` → 用户选定 `storeCode`（到店自取**不选/不传** `beCode`）
+5. `query-store-coupons`（`orderType=1`, `beType=1`，不传 `beCode`）
+6. `query-meals`（及按需 `query-meal-detail`）生成候选组合（同上，不传 `beCode`）
 7. 对候选多次 `calculate-price`，在预算内选最低应付；记下 `takeWayList`
-8. 展示方案；用户确认并选定 `takeWayCode` 后 `create-order`
+8. 展示方案；用户确认并选定 `takeWayCode` 后 `create-order`（不传 `beCode`）
 9. 返回 `payH5Url` 等支付/取餐信息
 
 详细图示见 `references/flow.md`。编排规则见根目录 `SKILL.md`（同时安装在 `.cursor/skills/mcd-budget-order/`）。
 
 ## 关键实现要点
 
-- 到店默认：`orderType=1`，`beType=1`
+- 到店默认：`orderType=1`，`beType=1`；后续工具**不要传** `beCode`（传了可能报错）
+- `beCode` 仅在得来速（`beType=5`）或外送/团餐（`beType=2/6`）场景必传
 - `create-order` 的 `takeWayCode` 必须来自对应 `calculate-price` 的 `takeWayList`
 - 算价/下单的 `items` 可携带 `couponId`、`couponCode`
 - 展示价格时注意返回值单位（多为分 → 元）

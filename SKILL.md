@@ -22,17 +22,26 @@ description: >-
 
 ## 硬性规则
 
-1. **未选定门店**（有 `storeCode` + `beCode`）前：禁止查完整菜单比价、禁止下单。
-2. **价格**：禁止模型口算总价；展示应付金额必须以最近一次成功的 `calculate-price` 的 `data.price` 为准（单位通常为「分」，向用户展示时换算为元，保留两位小数）。
-3. **预算**：若最优方案 `应付 > 预算`，只展示「最接近方案 + 差额」，**禁止** `create-order`。
-4. **写操作门禁**：下列工具必须先说明将要做什么，并得到用户明确同意后再调用：
+1. **未选定门店**（至少有 `storeCode`）前：禁止查完整菜单比价、禁止下单。
+2. **`beCode` 传参**（与官方 MCP 一致，传错会报错）：
+
+   | 场景 | beType | orderType | beCode |
+   |---|---|---|---|
+   | 到店自取（默认） | `1` | `1` | **不传**（附近店通常无 `beCode`；传了可能报错） |
+   | 得来速 | `5` | `1` | **必传**（来自 `query-nearby-stores`） |
+   | 麦乐送/外送 | `2` | `2` | **必传**（来自 `delivery-query-stores`） |
+   | 团餐 | `6` | `2` | **必传**（来自 `delivery-query-stores`） |
+
+3. **价格**：禁止模型口算总价；展示应付金额必须以最近一次成功的 `calculate-price` 的 `data.price` 为准（单位通常为「分」，向用户展示时换算为元，保留两位小数）。
+4. **预算**：若最优方案 `应付 > 预算`，只展示「最接近方案 + 差额」，**禁止** `create-order`。
+5. **写操作门禁**：下列工具必须先说明将要做什么，并得到用户明确同意后再调用：
    - `auto-bind-coupons`
    - `create-order`
    - `cancel-order`
    - `delivery-create-address`（外送降级时）
-5. **确认下单口令**：仅当用户明确表示确认（如「确认下单」「下单」「就按这个点」）且方案未改动时，才调用 `create-order`。改菜/改店/改券后必须重新 `calculate-price` 并再次确认。
-6. **到店下单**：`create-order` 需要 `takeWayCode`，必须来自同一次算价结果中的 `takeWayList`（让用户选一项，或选默认可用项并告知用户）。
-7. 不贬低品牌、不做竞品对比、不输出医疗/营养承诺。
+6. **确认下单口令**：仅当用户明确表示确认（如「确认下单」「下单」「就按这个点」）且方案未改动时，才调用 `create-order`。改菜/改店/改券后必须重新 `calculate-price` 并再次确认。
+7. **到店下单**：`create-order` 需要 `takeWayCode`，必须来自同一次算价结果中的 `takeWayList`（让用户选一项，或选默认可用项并告知用户）。
+8. 不贬低品牌、不做竞品对比、不输出医疗/营养承诺。
 
 ## 标准流水线（到店优先）
 
@@ -68,7 +77,9 @@ description: >-
 - `beType=1`
 - `city` + `keyword` 来自用户位置
 
-向用户列出 2–5 家（店名、距离、是否营业），请用户选定一家，记下 `storeCode`、`beCode`。
+向用户列出 2–5 家（店名、距离、是否营业），请用户选定一家，记下 `storeCode`。  
+`beType=1` 返回的门店通常**没有** `beCode`，后续工具调用也**不要传** `beCode`。  
+（若用户明确要求得来速 `beType=5`，则必须同时记下并传递 `beCode`。）
 
 若无结果：说明情况；仅当用户同意时再走外送降级（本 MVP 可提示「请换关键词或改外送」，外送完整链路可作为后续扩展）。
 
@@ -76,14 +87,15 @@ description: >-
 
 `query-store-coupons`：
 
-- `storeCode` / `beCode`
+- `storeCode`（必填）
 - `orderType=1`，`beType=1`
+- **不传** `beCode`
 
 合并「我的券」与「门店可用券」，后续算价优先尝试可用券（`couponId` + `couponCode`）。
 
 ### 5. 菜单
 
-`query-meals`（同一 `storeCode`/`beCode`，`orderType=1`，`beType=1`）。
+`query-meals`（同一 `storeCode`，`orderType=1`，`beType=1`，**不传** `beCode`）。
 
 需要套餐组成或特制时再 `query-meal-detail`。
 
@@ -95,7 +107,7 @@ description: >-
 
 ### 6. 预算搜索 + 真算价
 
-对每个候选组合调用 `calculate-price`（可含券字段、`withOrder` 若用户要随单购权益）：
+对每个候选组合调用 `calculate-price`（同一 `storeCode`，`orderType=1`，**不传** `beCode`；可含券字段、`withOrder` 若用户要随单购权益）：
 
 - 记录返回的 `price`（应付）、`discount`、`productOriginalPrice` 等
 - 在**应付 ≤ 预算**的候选中选应付最低者
@@ -126,7 +138,7 @@ description: >-
 用户确认且 `overBudget=false` 时：
 
 1. 确保已选定 `takeWayCode`（来自算价 `takeWayList`）
-2. 使用**与展示方案一致**的 `items` / 券 / `withOrder` 调用 `create-order`
+2. 使用**与展示方案一致**的 `items` / 券 / `withOrder` 调用 `create-order`（`orderType=1`，**不传** `beCode`）
 3. 返回 `orderId`、`payH5Url`、取餐相关字段；提醒尽快支付
 4. 用户要取消时，确认后 `cancel-order`
 
@@ -134,7 +146,7 @@ description: >-
 
 仅在用户明确要求外送时：
 
-`delivery-query-addresses` →（必要时经确认 `delivery-create-address`）→ `delivery-query-stores`，此后 `orderType=2`，`beType=2`，下单带 `addressId`。其余省钱与确认规则相同。
+`delivery-query-addresses` →（必要时经确认 `delivery-create-address`）→ `delivery-query-stores`，此后 `orderType=2`，`beType=2`，后续菜单/算价/下单须同时传 `storeCode` + `beCode`，并带 `addressId`。其余省钱与确认规则相同。
 
 ## 失败处理
 
