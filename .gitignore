@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+*.local
+node_modules/
+.DS_Store
+mcp.json
+.cursor/mcp.json
+**/mcp.local.json

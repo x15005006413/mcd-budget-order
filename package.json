@@ -1,0 +1,13 @@
+{
+  "name": "mcd-budget-order",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Budget-first dine-in McDonald's ordering skill via official MCP",
+  "type": "module",
+  "scripts": {
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
